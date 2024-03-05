@@ -21,8 +21,10 @@ CREATE TABLE publisher
     phone   VARCHAR(32) UNIQUE
 );
 
-COMMENT ON TABLE publisher IS 'publisher registered within a library db';
-COMMENT ON COLUMN publisher.name IS 'non-zero length publisher name';
+COMMENT
+    ON TABLE publisher IS 'publisher registered within a library db';
+COMMENT
+    ON COLUMN publisher.name IS 'non-zero length publisher name';
 
 ALTER TABLE publisher
     OWNER TO libms;
@@ -34,15 +36,19 @@ CREATE TABLE author
     first_name VARCHAR(128) NOT NULL,
     last_name  VARCHAR(128) NOT NULL,
     country    VARCHAR(255),
-    birthdate  DATE CHECK (birthdate < NOW() - INTERVAL '10 years'),
+    dob        DATE CHECK (dob < NOW() - INTERVAL '10 years'),
     CHECK (LENGTH(first_name) > 0),
     CHECK (LENGTH(last_name) > 0)
 );
 
-COMMENT ON TABLE author IS 'authors registered in the library db';
-COMMENT ON COLUMN author.first_name IS 'non-zero length author''s first name';
-COMMENT ON COLUMN author.last_name IS 'non-zero length author''s last name';
-COMMENT ON COLUMN author.birthdate IS 'at least 10 years old';
+COMMENT
+    ON TABLE author IS 'authors registered in the library db';
+COMMENT
+    ON COLUMN author.first_name IS 'non-zero length author''s first name';
+COMMENT
+    ON COLUMN author.last_name IS 'non-zero length author''s last name';
+COMMENT
+    ON COLUMN author.dob IS 'date of birth, at least 10 years old';
 
 ALTER TABLE author
     OWNER TO libms;
@@ -61,9 +67,12 @@ CREATE TABLE book
     keywords         TEXT
 );
 
-COMMENT ON TABLE book IS 'available books';
-COMMENT ON COLUMN book.title IS 'non-zero length book''s title';
-COMMENT ON COLUMN book.keywords IS 'whitespace separated keywords';
+COMMENT
+    ON TABLE book IS 'available books';
+COMMENT
+    ON COLUMN book.title IS 'non-zero length book''s title';
+COMMENT
+    ON COLUMN book.keywords IS 'whitespace separated keywords';
 
 ALTER TABLE book
     ADD CONSTRAINT check_title_length CHECK (LENGTH(title) > 0);
@@ -87,7 +96,8 @@ CREATE TYPE book_genre AS ENUM (
     'Young Adult'
     );
 
-COMMENT ON TYPE book_genre IS 'registered book genres enumeration';
+COMMENT
+    ON TYPE book_genre IS 'registered book genres enumeration';
 
 ALTER TABLE book
     ADD COLUMN genre book_genre;
@@ -102,9 +112,12 @@ CREATE TABLE book_author
     author_id INTEGER REFERENCES author
 );
 
-COMMENT ON TABLE book_author IS 'books-to-authors relationship';
-COMMENT ON COLUMN book_author.book_id IS 'unique together with author_id';
-COMMENT ON COLUMN book_author.author_id IS 'unique together with book_id';
+COMMENT
+    ON TABLE book_author IS 'books-to-authors relationship';
+COMMENT
+    ON COLUMN book_author.book_id IS 'unique together with author_id';
+COMMENT
+    ON COLUMN book_author.author_id IS 'unique together with book_id';
 
 ALTER TABLE book_author
     OWNER TO libms;
@@ -119,7 +132,8 @@ CREATE TABLE contact
     phone  VARCHAR(32)
 );
 
-COMMENT ON TABLE contact IS 'members contacts';
+COMMENT
+    ON TABLE contact IS 'members contacts';
 
 ALTER TABLE contact
     OWNER TO libms;
@@ -130,13 +144,15 @@ CREATE TABLE member
     id         SERIAL PRIMARY KEY,
     first_name VARCHAR(64) NOT NULL CHECK (LENGTH(first_name) > 0),
     last_name  VARCHAR(64) NOT NULL CHECK (LENGTH(last_name) > 0),
-    birthdate  DATE,
+    dob        DATE,
     registered DATE DEFAULT NOW(),
     contact_id INTEGER UNIQUE REFERENCES contact
 );
 
-COMMENT ON TABLE member IS 'library registered members';
-COMMENT ON COLUMN member.contact_id IS '1-to-1 relationship to contacts table';
+COMMENT
+    ON TABLE member IS 'library registered members';
+COMMENT
+    ON COLUMN member.contact_id IS '1-to-1 relationship to contacts table';
 
 ALTER TABLE member
     OWNER TO libms;
@@ -155,9 +171,12 @@ CREATE TABLE revenue
     UNIQUE (member_id, date)
 );
 
-COMMENT ON TABLE revenue IS 'revenue (incomes)';
-COMMENT ON COLUMN revenue.member_id IS 'unique together with date, member ref';
-COMMENT ON COLUMN revenue.date IS 'unique together with member_id, revenue date';
+COMMENT
+    ON TABLE revenue IS 'revenue (incomes)';
+COMMENT
+    ON COLUMN revenue.member_id IS 'unique together with date, member ref';
+COMMENT
+    ON COLUMN revenue.date IS 'unique together with member_id, revenue date';
 
 ALTER TABLE revenue
     OWNER TO libms;
@@ -173,10 +192,14 @@ CREATE TABLE borrow_request
     PRIMARY KEY (book_id, member_id, borrow_date)
 );
 
-COMMENT ON TABLE borrow_request IS 'book borrow requests';
-COMMENT ON COLUMN borrow_request.book_id IS 'book reference, composite pk';
-COMMENT ON COLUMN borrow_request.member_id IS 'member reference, composite pk';
-COMMENT ON COLUMN borrow_request.borrow_date IS 'composite pk';
+COMMENT
+    ON TABLE borrow_request IS 'book borrow requests';
+COMMENT
+    ON COLUMN borrow_request.book_id IS 'book reference, composite pk';
+COMMENT
+    ON COLUMN borrow_request.member_id IS 'member reference, composite pk';
+COMMENT
+    ON COLUMN borrow_request.borrow_date IS 'composite pk';
 
 ALTER TABLE borrow_request
     ADD CONSTRAINT
@@ -252,7 +275,7 @@ INSERT INTO publisher
 VALUES (30, 'Roodel', 'http://amazon.com', 'hkiliust@smh.com.au', '+216 (118) 215-3158');
 
 -- label: dml-author
-INSERT INTO author (first_name, last_name, country, birthdate)
+INSERT INTO author (first_name, last_name, country, dob)
 VALUES ('Letta', 'Casbolt', 'Poland', '1947-04-18'),
        ('Robbyn', 'Attwoul', 'Poland', '1954-10-17'),
        ('Hesther', 'Kisby', 'Ukraine', '1941-07-21'),
@@ -784,7 +807,8 @@ COPY borrow_request FROM '/var/lib/postgresql/assets/borrow_request.csv' DELIMIT
 -- label: clean-up-book_author
 -- temporary tables are dropped at the end of the session (when it is closed)
 DROP TABLE IF EXISTS book_author_distinct;
-CREATE TEMPORARY TABLE book_author_distinct AS
+CREATE
+    TEMPORARY TABLE book_author_distinct AS
 SELECT DISTINCT book_id, author_id
 FROM book_author;
 

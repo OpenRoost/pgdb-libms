@@ -24,7 +24,7 @@
       "formula": null
     },
     {
-      "name": "birthdate",
+      "name": "dob",
       "null_percentage": 15,
       "type": "Datetime",
       "min": "12/24/1958",
@@ -45,7 +45,7 @@
       "name": "contact_id",
       "null_percentage": 0,
       "type": "Dataset Column",
-      "dataset": "address",
+      "dataset": "contact",
       "column": "id",
       "selectionStyle": "sequential",
       "distribution": null,
