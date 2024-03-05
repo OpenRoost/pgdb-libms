@@ -1,0 +1,16 @@
+erDiagram
+    member ||--|| contact: has_contact
+
+    member {
+        string first_name
+        string last_name
+        date birthdate
+        date registered
+    }
+
+    contact {
+        string street
+        string postal
+        string email
+        string phone
+    }

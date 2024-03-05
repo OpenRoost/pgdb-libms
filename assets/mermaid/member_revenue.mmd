@@ -1,0 +1,15 @@
+erDiagram
+    member ||--o{ revenue: pays
+
+    member {
+        string first_name
+        string last_name
+        date birthdate
+        date registered
+    }
+
+    revenue {
+        int member_id
+        date date
+        int amount
+    }

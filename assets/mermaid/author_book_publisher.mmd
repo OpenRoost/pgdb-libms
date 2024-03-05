@@ -1,0 +1,29 @@
+erDiagram
+    author }|--|{ book: writes
+    publisher ||--|{ book: publishes
+
+    book {
+        string title
+        text synopsis
+        string isbn
+        int publisher_id
+        date publication_date
+        string genre
+        string language
+        int page_count
+        string keywords
+    }
+
+    author {
+        string first_name
+        string last_name
+        string country
+        date birthdate
+    }
+
+    publisher {
+        string name
+        string website
+        string email
+        string phone
+    }
