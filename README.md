@@ -6,13 +6,6 @@ library management, this project encompasses SQL scripts that detail
 the creation of tables pertinent to the system, as well as their subsequent
 population with mock data.
 
-**Table of Contents**
-
-- [Getting started](#getting-started)
-    - [Database initialization](#database-initialization)
-    - [Using Docker Compose](#using-docker-compose)
-- [Database structure](#database-structure)
-
 ## Getting started
 
 **Prerequisites**
